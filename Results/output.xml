@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 4.0 (Python 3.9.2 on win32)" generated="20210401 12:17:51.994" rpa="false" schemaversion="2">
+<suite id="s1" name="Tests" source="C:\Users\55129\Documents\Projetos\APITesting\Tests">
+<suite id="s1-s1" name="BarrigaRest" source="C:\Users\55129\Documents\Projetos\APITesting\Tests\BarrigaRest">
+<suite id="s1-s1-s1" name="ContaTest" source="C:\Users\55129\Documents\Projetos\APITesting\Tests\BarrigaRest\ContaTest.robot">
+<kw name="conectar a BarrigaRest" library="Resource" type="SETUP">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>barrigarest</arg>
+<arg>${BARRIGAREST_BASE_URL}</arg>
+<arg>disable_warnings=True</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20210401 12:17:52.128" level="INFO">Creating Session using : alias=barrigarest, url=https://barrigarest.wcaquino.me, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20210401 12:17:52.128" endtime="20210401 12:17:52.129"/>
+</kw>
+<status status="PASS" starttime="20210401 12:17:52.128" endtime="20210401 12:17:52.129"/>
+</kw>
+<test id="s1-s1-s1-t1" name="CT01 - GET todas as contas utilizando TOKEN">
+<kw name="Realizar login no BarrigaRest" library="BarrigaRest" type="SETUP">
+<arg>israfaioli@gmail.com</arg>
+<arg>123456</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${HEADERS}</var>
+<arg>content-type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210401 12:17:52.130" level="INFO">${HEADERS} = {'content-type': 'application/json'}</msg>
+<status status="PASS" starttime="20210401 12:17:52.130" endtime="20210401 12:17:52.130"/>
+</kw>
+<kw name="Post On Session" library="RequestsLibrary">
+<var>${RESPONSE}</var>
+<arg>BarrigaRest</arg>
+<arg>/signin</arg>
+<arg>data={"email": "${USER_EMAIL}", "senha": "${USER_PASSWORD}", "redirecionar": false}</arg>
+<arg>headers=${HEADERS}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20210401 12:17:52.986" level="INFO">POST Request : url=https://barrigarest.wcaquino.me/signin 
+ path_url=/signin 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'content-type': 'application/json', 'Content-Length': '75'} 
+ body={"email": "israfaioli@gmail.com", "senha": "123456", "redirecionar": false} 
+ </msg>
+<msg timestamp="20210401 12:17:52.986" level="INFO">POST Response : url=https://barrigarest.wcaquino.me/signin 
+ status=200, reason=OK 
+ headers={'Server': 'nginx/1.12.1 (Ubuntu)', 'Date': 'Thu, 01 Apr 2021 15:17:52 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '143', 'Connection': 'keep-alive', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'ETag': 'W/"8f-kc7UBRDi7UhDGfDfwOtPrXT3iok"'} 
+ body={"id":13017,"nome":"Israel Faioli","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTMwMTd9.10eTSnUTbp4ML55nJKnLk2x8R2qd8SmNY2W3BNbOotg"} 
+ </msg>
+<msg timestamp="20210401 12:17:52.986" level="INFO">${RESPONSE} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210401 12:17:52.130" endtime="20210401 12:17:52.987"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${RESPONSE}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210401 12:17:52.987" level="INFO">${RESPONSE} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210401 12:17:52.987" endtime="20210401 12:17:52.987"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${RESPONSE.json()}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210401 12:17:52.988" level="INFO">{'id': 13017, 'nome': 'Israel Faioli', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTMwMTd9.10eTSnUTbp4ML55nJKnLk2x8R2qd8SmNY2W3BNbOotg'}</msg>
+<status status="PASS" starttime="20210401 12:17:52.987" endtime="20210401 12:17:52.988"/>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<var>${TOKEN}</var>
+<arg>${RESPONSE.json()}</arg>
+<arg>token</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20210401 12:17:52.988" level="INFO">${TOKEN} = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTMwMTd9.10eTSnUTbp4ML55nJKnLk2x8R2qd8SmNY2W3BNbOotg</msg>
+<status status="PASS" starttime="20210401 12:17:52.988" endtime="20210401 12:17:52.988"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Meu token é: ${TOKEN}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20210401 12:17:52.988" level="INFO">Meu token é: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTMwMTd9.10eTSnUTbp4ML55nJKnLk2x8R2qd8SmNY2W3BNbOotg</msg>
+<status status="PASS" starttime="20210401 12:17:52.988" endtime="20210401 12:17:52.988"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${TOKEN}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20210401 12:17:52.989" level="INFO">${TOKEN} = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTMwMTd9.10eTSnUTbp4ML55nJKnLk2x8R2qd8SmNY2W3BNbOotg</msg>
+<status status="PASS" starttime="20210401 12:17:52.989" endtime="20210401 12:17:52.989"/>
+</kw>
+<status status="PASS" starttime="20210401 12:17:52.129" endtime="20210401 12:17:52.989"/>
+</kw>
+<kw name="Obter todas as contas" library="BarrigaRest">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${HEADERS}</var>
+<arg>content-type=application/json</arg>
+<arg>Authorization=JWT ${TOKEN}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210401 12:17:52.990" level="INFO">${HEADERS} = {'content-type': 'application/json', 'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTMwMTd9.10eTSnUTbp4ML55nJKnLk2x8R2qd8SmNY2W3BNbOotg'}</msg>
+<status status="PASS" starttime="20210401 12:17:52.990" endtime="20210401 12:17:52.990"/>
+</kw>
+<kw name="Get On Session" library="RequestsLibrary">
+<var>${RESPONSE}</var>
+<arg>BarrigaRest</arg>
+<arg>/contas</arg>
+<arg>headers=${HEADERS}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20210401 12:17:53.137" level="INFO">GET Request : url=https://barrigarest.wcaquino.me/contas 
+ path_url=/contas 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'content-type': 'application/json', 'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTMwMTd9.10eTSnUTbp4ML55nJKnLk2x8R2qd8SmNY2W3BNbOotg'} 
+ body=None 
+ </msg>
+<msg timestamp="20210401 12:17:53.137" level="INFO">GET Response : url=https://barrigarest.wcaquino.me/contas 
+ status=200, reason=OK 
+ headers={'Server': 'nginx/1.12.1 (Ubuntu)', 'Date': 'Thu, 01 Apr 2021 15:17:53 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '463', 'Connection': 'keep-alive', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'ETag': 'W/"1cf-ThBZhqvuX0/EUoJUnd2mtZJDZtA"'} 
+ body=[{"id":509630,"nome":"Conta para alterar","visivel":true,"usuario_id":13017},{"id":509631,"nome":"Conta mesmo nome","visivel":true,"usuario_id":13017},{"id":509632,"nome":"Conta para movimentacoes","visivel":true,"usuario_id":13017},{"id":509633,"nome":"Conta com movimentacao","visivel":true,"usuario_id":13017},{"id":509634,"nome":"Conta para saldo","visivel":true,"usuario_id":13017},{"id":509635,"nome":"Conta para extrato","visivel":true,"usuario_id":13017}] 
+ </msg>
+<msg timestamp="20210401 12:17:53.137" level="INFO">${RESPONSE} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210401 12:17:52.991" endtime="20210401 12:17:53.137"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${RESPONSE}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210401 12:17:53.137" level="INFO">${RESPONSE} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210401 12:17:53.137" endtime="20210401 12:17:53.137"/>
+</kw>
+<status status="PASS" starttime="20210401 12:17:52.990" endtime="20210401 12:17:53.138"/>
+</kw>
+<kw name="Verificar o status code" library="Resource">
+<arg>200</arg>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${RESPONSE.status_code}</arg>
+<arg>${STATUS_CODE}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20210401 12:17:53.139" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210401 12:17:53.138" endtime="20210401 12:17:53.139"/>
+</kw>
+<status status="PASS" starttime="20210401 12:17:53.138" endtime="20210401 12:17:53.139"/>
+</kw>
+<kw name="Verificar tamanho da lista" library="Resource">
+<arg>6</arg>
+<kw name="Length Should Be" library="BuiltIn">
+<arg>${RESPONSE.json()}</arg>
+<arg>${SIZE}</arg>
+<doc>Verifies that the length of the given item is correct.</doc>
+<msg timestamp="20210401 12:17:53.140" level="INFO">Length is 6</msg>
+<status status="PASS" starttime="20210401 12:17:53.140" endtime="20210401 12:17:53.140"/>
+</kw>
+<status status="PASS" starttime="20210401 12:17:53.139" endtime="20210401 12:17:53.140"/>
+</kw>
+<kw name="Verificar se os dados estão corretos para determinada conta" library="Resource">
+<arg>${ACCOUNT_509635.id}</arg>
+<arg>${ACCOUNT_509635.nome}</arg>
+<arg>${ACCOUNT_509635.visivel}</arg>
+<arg>${ACCOUNT_509635.usuario_id}</arg>
+<kw name="Dictionary Should Contain Item" library="Collections">
+<arg>${RESPONSE.json()[5]}</arg>
+<arg>id</arg>
+<arg>${ACCOUNT_ID}</arg>
+<doc>An item of ``key`` / ``value`` must be found in a ``dictionary``.</doc>
+<status status="PASS" starttime="20210401 12:17:53.142" endtime="20210401 12:17:53.143"/>
+</kw>
+<kw name="Dictionary Should Contain Item" library="Collections">
+<arg>${RESPONSE.json()[5]}</arg>
+<arg>nome</arg>
+<arg>${ACCOUNT_NAME}</arg>
+<doc>An item of ``key`` / ``value`` must be found in a ``dictionary``.</doc>
+<status status="PASS" starttime="20210401 12:17:53.143" endtime="20210401 12:17:53.144"/>
+</kw>
+<kw name="Dictionary Should Contain Item" library="Collections">
+<arg>${RESPONSE.json()[5]}</arg>
+<arg>visivel</arg>
+<arg>${ACCOUNT_IS_VISIBLE}</arg>
+<doc>An item of ``key`` / ``value`` must be found in a ``dictionary``.</doc>
+<status status="PASS" starttime="20210401 12:17:53.144" endtime="20210401 12:17:53.145"/>
+</kw>
+<kw name="Dictionary Should Contain Item" library="Collections">
+<arg>${RESPONSE.json()[5]}</arg>
+<arg>usuario_id</arg>
+<arg>${ACCOUNT_USER_ID}</arg>
+<doc>An item of ``key`` / ``value`` must be found in a ``dictionary``.</doc>
+<status status="PASS" starttime="20210401 12:17:53.145" endtime="20210401 12:17:53.147"/>
+</kw>
+<status status="PASS" starttime="20210401 12:17:53.141" endtime="20210401 12:17:53.147"/>
+</kw>
+<tag>Robotframework</tag>
+<status status="PASS" starttime="20210401 12:17:52.129" endtime="20210401 12:17:53.149"/>
+</test>
+<status status="PASS" starttime="20210401 12:17:52.017" endtime="20210401 12:17:53.151"/>
+</suite>
+<status status="PASS" starttime="20210401 12:17:52.014" endtime="20210401 12:17:53.154"/>
+</suite>
+<status status="PASS" starttime="20210401 12:17:51.996" endtime="20210401 12:17:53.156"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">Robotframework</stat>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Tests">Tests</stat>
+<stat pass="1" fail="0" skip="0" id="s1-s1" name="BarrigaRest">Tests.BarrigaRest</stat>
+<stat pass="1" fail="0" skip="0" id="s1-s1-s1" name="ContaTest">Tests.BarrigaRest.ContaTest</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
